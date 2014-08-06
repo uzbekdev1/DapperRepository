@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperRepository", "DapperRepository\DapperRepository.csproj", "{6B27BDC9-49DE-4111-A288-36E18AF55CF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{08AD06A9-EDA7-4CE9-B98E-6B0F7BCAFE8E}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperRepository.MSSQL", "DapperRepository.MSSQL\DapperRepository.MSSQL.csproj", "{A3DE7767-954A-4F71-B796-918DFAAF5291}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperRepository.MySQL", "DapperRepository.MySQL\DapperRepository.MySQL.csproj", "{94C2D338-5C1F-427C-8B6F-1BE5FE498F3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperRepository.Demo", "DapperRepository.Demo\DapperRepository.Demo.csproj", "{0ACBF4A9-53A4-4B95-9369-8E4965B42903}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperRepository.PostgreSQL", "DapperRepository.PostgreSQL\DapperRepository.PostgreSQL.csproj", "{DD2C6178-CFA7-410D-B125-85C3FAE6EB5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B27BDC9-49DE-4111-A288-36E18AF55CF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B27BDC9-49DE-4111-A288-36E18AF55CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B27BDC9-49DE-4111-A288-36E18AF55CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B27BDC9-49DE-4111-A288-36E18AF55CF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3DE7767-954A-4F71-B796-918DFAAF5291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3DE7767-954A-4F71-B796-918DFAAF5291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3DE7767-954A-4F71-B796-918DFAAF5291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3DE7767-954A-4F71-B796-918DFAAF5291}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94C2D338-5C1F-427C-8B6F-1BE5FE498F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94C2D338-5C1F-427C-8B6F-1BE5FE498F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94C2D338-5C1F-427C-8B6F-1BE5FE498F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94C2D338-5C1F-427C-8B6F-1BE5FE498F3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ACBF4A9-53A4-4B95-9369-8E4965B42903}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ACBF4A9-53A4-4B95-9369-8E4965B42903}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ACBF4A9-53A4-4B95-9369-8E4965B42903}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ACBF4A9-53A4-4B95-9369-8E4965B42903}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD2C6178-CFA7-410D-B125-85C3FAE6EB5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD2C6178-CFA7-410D-B125-85C3FAE6EB5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD2C6178-CFA7-410D-B125-85C3FAE6EB5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD2C6178-CFA7-410D-B125-85C3FAE6EB5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
