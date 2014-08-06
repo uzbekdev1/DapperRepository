@@ -7,7 +7,6 @@
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -16,23 +15,24 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1 class="header">Dapperrepository</h1>
-        <p class="header"> Dapper Repository</p>
+        <h1>Dapperrepository</h1>
+        <p> Dapper Repository</p>
+
+        <p class="view"><a href="https://github.com/elyor0529/DapperRepository">View the Project on GitHub <small>elyor0529/DapperRepository</small></a></p>
+
 
         <ul>
-          <li class="download"><a class="buttons" href="https://github.com/elyor0529/DapperRepository/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/elyor0529/DapperRepository/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/elyor0529/DapperRepository">View On GitHub</a></li>
+          <li><a href="https://github.com/elyor0529/DapperRepository/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/elyor0529/DapperRepository/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/elyor0529/DapperRepository">View On <strong>GitHub</strong></a></li>
         </ul>
-
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/elyor0529">elyor0529</a></p>
-
-
       </header>
       <section>
-        <p>Welcome to the DapperRepository wiki!</p>
+        <h2>
+<a name="welcome-to-the-dapperrepository-wiki" class="anchor" href="#welcome-to-the-dapperrepository-wiki"><span class="octicon octicon-link"></span></a>Welcome to the DapperRepository wiki!</h2>
 
-<p>This Repository cloning and changed to Drapper ORM micro framework.</p>
+<h3>
+<a name="this-repository-cloning-and-changed-to-drapper-orm-micro-framework" class="anchor" href="#this-repository-cloning-and-changed-to-drapper-orm-micro-framework"><span class="octicon octicon-link"></span></a>This Repository cloning and changed to Drapper ORM micro framework.</h3>
 
 <ul>
 <li><a href="https://github.com/elyor0529/dapper-dot-net">Dapper .NET source</a></li>
@@ -41,74 +41,122 @@
 
 <p>I fix to this issue list:</p>
 
-<ol>
-<li>Type Mapping</li>
-<li>Drop table</li>
-<li>Exists table,</li>
-<li>Create table</li>
-<li>DbFactory</li>
-</ol><p>Demonstration</p>
+<p><em>1. Type Mapping</em>
+<em>1. Drop table</em>
+<em>1. Exists table,</em>
+<em>1. Create table</em>
+<em>1. DbFactory</em></p>
+
+<p>Demonstration</p>
 
 <p>Model:</p>
 
-<p><code>public class TempModel</code>
-    <code>{</code>
-        <code>public TempModel()</code>
-        <code>{</code>
-            <code>LastModifiedDate = DateTime.Now;</code>
-            <code>CreatedDate = DateTime.Now;</code>
-        <code>}</code></p>
+<p><strong>public class TempModel`</strong>
+    <strong><code>{</code></strong>
+        <strong><code>public TempModel()</code></strong>
+        <strong><code>{</code></strong>
+            <strong><code>LastModifiedDate = DateTime.Now;</code></strong>
+            <strong><code>CreatedDate = DateTime.Now;</code></strong>
+        <strong><code>}</code></strong></p>
 
-<pre><code>    `public long ID { get; set; }`
+<pre><code>    **`public long ID { get; set; }`**
 
-    `public string Version { get; set; }`
+    **`public string Version { get; set; }`**
 
-    `public string Name { get; set; }`
+    **`public string Name { get; set; }`**
 
-    `public DateTime CreatedDate { get; set; }`
+    **`public DateTime CreatedDate { get; set; }`**
 
-    `public DateTime LastModifiedDate { get; set; }`
-`}`
+    **`public DateTime LastModifiedDate { get; set; }`**
+**`}`**
 </code></pre>
 
 <p>Mapper:</p>
 
-<p><code>public class TempModelMapper : ClassMapper&lt;TempModel&gt;</code>
-    <code>{</code>
-        <code>public TempModelMapper()</code>
-        <code>{</code>
-            <code>Table("BusinessView");</code></p>
+<p><strong><code>public class TempModelMapper : ClassMapper&lt;TempModel&gt;</code></strong>
+    <strong><code>{</code></strong>
+        <strong><code>public TempModelMapper()</code></strong>
+        <strong><code>{</code></strong>
+            <strong><code>Table("BusinessView");</code></strong></p>
 
-<pre><code>        `Map(f =&gt; f.ID).Column("Id").Key(KeyType.Identity);`
-        `Map(f =&gt; f.Version).Column("Version");`
-        `Map(f =&gt; f.Name).Column("Name");`
-        `Map(f =&gt; f.CreatedDate).Column("CreatedDate");`
-        `Map(f =&gt; f.LastModifiedDate).Column("LastModifiedDate");`
+<pre><code>        **`Map(f =&gt; f.ID).Column("Id").Key(KeyType.Identity);`**
+        **`Map(f =&gt; f.Version).Column("Version");`**
+        **`Map(f =&gt; f.Name).Column("Name");`**
+        **`Map(f =&gt; f.CreatedDate).Column("CreatedDate");`**
+        **`Map(f =&gt; f.LastModifiedDate).Column("LastModifiedDate");`**
 
-        `Schema("");`
-    `}`
-`}`
+        **`Schema("");`**
+    **`}`**
+**`}`**
 </code></pre>
 
 <p>Connection Strings:</p>
 
-<p><code>&lt;appSettings&gt;</code>
-    <code>&lt;add key="ConnectionString" value="Data Source=localhost;Initial Catalog=TempDb;User Id=sa;Password=web@1234"/&gt;</code>
-  <code>&lt;/appSettings&gt;</code></p>
+<p><strong><code>&lt;appSettings&gt;</code></strong>
+    <strong><code>&lt;add key="ConnectionString" value="Data Source=localhost;Initial Catalog=TempDb;User Id=sa;Password=web@1234"/&gt;</code></strong>
+  <strong><code>&lt;/appSettings&gt;</code></strong></p>
 
 <p>Migrations:</p>
 
-<p><code>var connectionString = ConfigurationManager.AppSettings["ConnectionString"];</code></p>
+<p><strong><code>var connectionString = ConfigurationManager.AppSettings["ConnectionString"];</code></strong></p>
 
-<p><code>RepositoryHelper.ConfigureRepository(new SqlServerManager(connectionString));</code>
-   <code>MigrationHelper.Configure&lt;TempModel&gt;();</code></p>
+<p><strong><code>RepositoryHelper.ConfigureRepository(new SqlServerManager(connectionString));</code></strong>
+   <strong><code>MigrationHelper.Configure&lt;TempModel&gt;();</code></strong></p>
+
+<p>Test:</p>
+
+<p><strong><code>using (var manager = RepositoryHelper.GetManager())</code></strong>
+            <strong><code>{</code></strong>
+                <strong><code>//exists</code></strong>
+                <strong><code>if (manager.Database.Exists&lt;TempModel&gt;())</code></strong>
+                <strong><code>{</code></strong>
+                    <strong><code>//drop</code></strong>
+                    <strong><code>manager.Database.Drop&lt;TempModel&gt;();</code></strong>
+                <strong><code>}</code></strong></p>
+
+<pre><code>            **`//create`**
+            **`manager.Database.Create&lt;TempModel&gt;();`**
+
+            **`//insert`**
+            **`var bv = new TempModel`**
+            **`{`**
+                **`Name = "Aji buji"`**
+            **`};`**
+            **`var bvId = manager.Database.Insert(bv);`**
+
+            **`//get`**
+            **`bv = manager.Database.Get&lt;TempModel&gt;(bvId);`**
+
+            **`//update`**
+            **`bv.Name = "Buji aji";`**
+            **`bv.CreatedDate = DateTime.Now;`**
+            **`bv.LastModifiedDate = DateTime.Now;`**
+            **`manager.Database.Update(bv);`**
+
+            **`//delete`**
+            **`manager.Database.Delete(bv);`**
+
+            **`//all `**
+            **`var bvs = manager.Database.GetList&lt;TempModel&gt;();`**
+            **`foreach (var item in bvs)`**
+                **`Console.WriteLine(item.Name);`**
+
+            **`//filter`**
+            **`var predicate = Predicates.Field&lt;TempModel&gt;(model =&gt; model.Name, Operator.Like, "ji");`**
+            **`bvs = manager.Database.GetList&lt;TempModel&gt;();`**
+            **`foreach (var item in bvs)`**
+                **`Console.WriteLine(item.Name);`**
+
+        **`}`**
+</code></pre>
       </section>
       <footer>
-        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+        <p>This project is maintained by <a href="https://github.com/elyor0529">elyor0529</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		          <script type="text/javascript">
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
