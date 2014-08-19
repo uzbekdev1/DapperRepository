@@ -28,10 +28,8 @@ Model:
             CreatedDate = DateTime.Now;
         }
 
-        public long ID { get; set; }
-
-        public string Version { get; set; }
-
+        public long ID { get; set; } 
+        
         public string Name { get; set; }
 
         public DateTime CreatedDate { get; set; }
@@ -48,8 +46,7 @@ Mapper:
         {
             Table("BusinessView");
 
-            Map(f => f.ID).Column("Id").Key(KeyType.Identity);
-            Map(f => f.Version).Column("Version");
+            Map(f => f.ID).Column("Id").Key(KeyType.Identity); 
             Map(f => f.Name).Column("Name");
             Map(f => f.CreatedDate).Column("CreatedDate");
             Map(f => f.LastModifiedDate).Column("LastModifiedDate");
@@ -60,60 +57,74 @@ Mapper:
 
 Connection Strings:
 
- <appSettings>
-    <add key="ConnectionString" value="Data Source=localhost;Initial Catalog=TempDb;User Id=sa;Password=web@1234"/>
-  </appSettings>
-
+<!--SQLite-->
+<Repository>
+  <DriverType>SQLite</DriverType>
+  <ConnectionString>Data Source=QueryProcessorStorage.sqlite;Version=3;</ConnectionString>
+  <Options>
+    <CommandTimeOut>0</CommandTimeOut>
+    <DefaultSchema/>
+    <MigrationsEnabled>True</MigrationsEnabled>
+    <MigrationDataLossAllowed>False</MigrationDataLossAllowed>
+    <CreateDatabaseIfNotExists>True</CreateDatabaseIfNotExists>
+  </Options> 
+</Repository>
 Migrations:
 
- var connectionString = ConfigurationManager.AppSettings["ConnectionString"];
-
-   RepositoryHelper.ConfigureRepository(new SqlServerManager(connectionString));
-   MigrationHelper.Configure<TempModel>();
+ 
+ 
 
 Test:
 
+      private static IDrapperManager _manager;
 
-            using (var manager = RepositoryHelper.GetManager())
+            static Program()
             {
-                //exists
-                if (manager.Database.Exists<TempModel>())
+                _manager = RepositoryFactory.GetManager();
+
+                RepositoryFactory.SetManager(_manager);
+            }
+
+            [Migration(typeof(TempModel))]
+
+            private static void Main(string[] args)
+            {
+                using (_manager)
                 {
-                    //drop                    
-                    manager.Database.Drop<TempModel>();
+                    _manager.Database.Open();
+
+                    //insert
+                    var bv = new TempModel
+                    {
+                        Name = "BV"
+                    };
+                    var bvId = _manager.Database.Insert(bv);
+
+                    //get
+                    bv = _manager.Database.Get<TempModel>(bvId);
+
+                    //update
+                    bv.Name = "Workfile1";
+                    bv.CreatedDate = DateTime.Now;
+                    bv.LastModifiedDate = DateTime.Now;
+                    _manager.Database.Update(bv);
+
+                    //delete
+                    _manager.Database.Delete(bv);
+
+                    //all 
+                    var bvs = _manager.Database.GetList<TempModel>();
+                    Console.WriteLine("All:");
+                    foreach (var item in bvs)
+                        Console.WriteLine(item.Name);
+
+                    //filter
+                    var predicate = Predicates.Field<TempModel>(a => a.Name, Operator.Like, "%a%");
+                    bvs = _manager.Database.GetList<TempModel>(predicate);
+                    Console.WriteLine("Filter(By 'like' operator):");
+                    foreach (var item in bvs)
+                        Console.WriteLine(item.Name);
+
+                    _manager.Database.Close();
                 }
-
-                //create
-                manager.Database.Create<TempModel>();
-
-                //insert
-                var bv = new TempModel
-                {
-                    Name = "Aji buji"
-                };
-                var bvId = manager.Database.Insert(bv);
-
-                //get
-                bv = manager.Database.Get<TempModel>(bvId);
-
-                //update
-                bv.Name = "Buji aji";
-                bv.CreatedDate = DateTime.Now;
-                bv.LastModifiedDate = DateTime.Now;
-                manager.Database.Update(bv);
-
-                //delete
-                manager.Database.Delete(bv);
-
-                //all 
-                var bvs = manager.Database.GetList<TempModel>();
-                foreach (var item in bvs)
-                    Console.WriteLine(item.Name);
-
-                //filter
-                var predicate = Predicates.Field<TempModel>(model => model.Name, Operator.Like, "ji");
-                bvs = manager.Database.GetList<TempModel>();
-                foreach (var item in bvs)
-                    Console.WriteLine(item.Name);
-
             }
