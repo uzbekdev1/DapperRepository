@@ -1,22 +1,22 @@
 Welcome to the DapperRepository wiki!
 
-This Repository cloning and changed to Drapper ORM micro framework.
+Simple SQL object mapper for ADO.NET 
 
 Dapper .NET source - https://github.com/elyor0529/dapper-dot-net
 Dapper Extensions - https://github.com/elyor0529/Dapper-Extensions
 
-And I this two libs in changes table , wrote here:
+Latest modified by Elyor Latipov - mailto:elyor@outlook.com
 
 I fix to this issue list:
 
- Type Mapping
- Drop table
- Exists table
- Create table
- DbFactory
+	- Type Mapping
+	- Drop table
+	- Exists table
+	- Create table
+	- Create Schema
+	- Create Database
+	- PK , UQ , NN impleted to every dialects  
 
-
-Demonstration
 
 Model:
 
@@ -70,8 +70,6 @@ Connection Strings:
   </Options> 
 </Repository>
 Migrations:
-
- 
  
 
 Test:
