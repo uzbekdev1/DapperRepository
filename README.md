@@ -27,13 +27,9 @@ Model:
             LastModifiedDate = DateTime.Now;
             CreatedDate = DateTime.Now;
         }
-
         public long ID { get; set; } 
-        
         public string Name { get; set; }
-
         public DateTime CreatedDate { get; set; }
-
         public DateTime LastModifiedDate { get; set; }
     }
 
@@ -45,12 +41,10 @@ Mapper:
         public TempModelMapper()
         {
             Table("BusinessView");
-
             Map(f => f.ID).Column("Id").Key(KeyType.Identity); 
             Map(f => f.Name).Column("Name");
             Map(f => f.CreatedDate).Column("CreatedDate");
             Map(f => f.LastModifiedDate).Column("LastModifiedDate");
-
             Schema("");
         }
     }
@@ -69,9 +63,7 @@ Connection Strings:
     <CreateDatabaseIfNotExists>True</CreateDatabaseIfNotExists>
   </Options> 
 </Repository>
-Migrations:
  
-
 Test:
 
       private static IDrapperManager _manager;
