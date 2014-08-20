@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using DapperRepository.Drapper;
 using MySql.Data.MySqlClient;
+using DapperRepository.Models;
 
 namespace DapperRepository.MySQL
 {
-    public class MySqlManager : DrapperManager
+    internal class MySqlManager : DrapperManager
     {
         private static readonly IDictionary<Type, string> _dataMapper;
-
+        private RepositoryModel _model;
         static MySqlManager()
         {
             _dataMapper = new Dictionary<Type, string>
@@ -27,11 +28,12 @@ namespace DapperRepository.MySQL
             };
         }
 
-        public MySqlManager(string connectionString)
+        public MySqlManager(RepositoryModel model)
             : base(new MySqlGenerator(new DapperExtensionsConfiguration(_dataMapper, null, null, new MySqlDialect())),
-                new MySqlConnection(connectionString),
+                new MySqlConnection(model.ConnectionString),
                 new MySqlDialect())
         {
+            _model = model; 
         }
 
         public override void Init()
@@ -39,10 +41,11 @@ namespace DapperRepository.MySQL
         }
 
         /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public override void Dispose()
         {
+
         }
     }
 }

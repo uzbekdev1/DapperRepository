@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DapperRepository.Drapper.Mapper;
+using DapperRepository.Drapper.Mapper; 
 
 namespace DapperRepository.Drapper.Sql
 {
@@ -15,8 +15,7 @@ namespace DapperRepository.Drapper.Sql
 
         public IDapperExtensionsConfiguration Configuration { get; private set; }
 
-        public virtual string Select(IClassMapper classMap, IPredicate predicate, IList<ISort> sort,
-            IDictionary<string, object> parameters)
+        public virtual string Select(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, IDictionary<string, object> parameters)
         {
             if (parameters == null)
             {
@@ -35,17 +34,13 @@ namespace DapperRepository.Drapper.Sql
             if (sort != null && sort.Any())
             {
                 sql.Append(" ORDER BY ")
-                    .Append(
-                        sort.Select(
-                            s => GetColumnName(classMap, s.PropertyName, false) + (s.Ascending ? " ASC" : " DESC"))
-                            .AppendStrings());
+                    .Append(sort.Select(s => GetColumnName(classMap, s.PropertyName, false) + (s.Ascending ? " ASC" : " DESC")).AppendStrings());
             }
 
             return sql.ToString();
         }
 
-        public virtual string SelectPaged(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int page,
-            int resultsPerPage, IDictionary<string, object> parameters)
+        public virtual string SelectPaged(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int page, int resultsPerPage, IDictionary<string, object> parameters)
         {
             if (sort == null || !sort.Any())
             {
@@ -66,17 +61,14 @@ namespace DapperRepository.Drapper.Sql
                     .Append(predicate.GetSql(this, parameters));
             }
 
-            string orderBy =
-                sort.Select(s => GetColumnName(classMap, s.PropertyName, false) + (s.Ascending ? " ASC" : " DESC"))
-                    .AppendStrings();
+            string orderBy = sort.Select(s => GetColumnName(classMap, s.PropertyName, false) + (s.Ascending ? " ASC" : " DESC")).AppendStrings();
             innerSql.Append(" ORDER BY " + orderBy);
 
             string sql = Configuration.Dialect.GetPagingSql(innerSql.ToString(), page, resultsPerPage, parameters);
             return sql;
         }
 
-        public virtual string SelectSet(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int firstResult,
-            int maxResults, IDictionary<string, object> parameters)
+        public virtual string SelectSet(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int firstResult, int maxResults, IDictionary<string, object> parameters)
         {
             if (sort == null || !sort.Any())
             {
@@ -97,9 +89,7 @@ namespace DapperRepository.Drapper.Sql
                     .Append(predicate.GetSql(this, parameters));
             }
 
-            string orderBy =
-                sort.Select(s => GetColumnName(classMap, s.PropertyName, false) + (s.Ascending ? " ASC" : " DESC"))
-                    .AppendStrings();
+            string orderBy = sort.Select(s => GetColumnName(classMap, s.PropertyName, false) + (s.Ascending ? " ASC" : " DESC")).AppendStrings();
             innerSql.Append(" ORDER BY " + orderBy);
 
             string sql = Configuration.Dialect.GetSetSql(innerSql.ToString(), firstResult, maxResults, parameters);
@@ -114,9 +104,9 @@ namespace DapperRepository.Drapper.Sql
             }
 
             var sql = new StringBuilder(string.Format("SELECT COUNT(*) AS {0}Total{1} FROM {2}",
-                Configuration.Dialect.OpenQuote,
-                Configuration.Dialect.CloseQuote,
-                GetTableName(classMap)));
+                                Configuration.Dialect.OpenQuote,
+                                Configuration.Dialect.CloseQuote,
+                                GetTableName(classMap)));
             if (predicate != null)
             {
                 sql.Append(" WHERE ")
@@ -124,6 +114,16 @@ namespace DapperRepository.Drapper.Sql
             }
 
             return sql.ToString();
+        }
+
+        public virtual string ConnectionString()
+        {
+            return String.Empty;
+        }
+
+        public virtual string Database()
+        {
+            return String.Empty;
         }
 
         public virtual string Schema(IClassMapper classMapper)
@@ -141,10 +141,7 @@ namespace DapperRepository.Drapper.Sql
             if (classMap == null)
                 throw new ArgumentException("No table were mapped.");
 
-            return
-                String.Format(
-                    "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{0}' AND TABLE_SCHEMA = '{1}'",
-                    classMap.TableName, classMap.SchemaName);
+            return String.Format("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{0}' AND TABLE_SCHEMA = '{1}'", classMap.TableName, classMap.SchemaName);
         }
 
         public virtual string Drop(IClassMapper classMap)
@@ -157,21 +154,20 @@ namespace DapperRepository.Drapper.Sql
 
         public virtual string Insert(IClassMapper classMap)
         {
-            IPropertyMap[] columns =
-                classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity))
-                    .ToArray();
+            var columns = classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity))
+                .ToArray();
             if (!columns.Any())
             {
                 throw new ArgumentException("No columns were mapped.");
             }
 
-            IEnumerable<string> columnNames = columns.Select(p => GetColumnName(classMap, p, false));
-            IEnumerable<string> parameters = columns.Select(p => Configuration.Dialect.ParameterPrefix + p.Name);
+            var columnNames = columns.Select(p => GetColumnName(classMap, p, false));
+            var parameters = columns.Select(p => Configuration.Dialect.ParameterPrefix + p.Name);
 
             string sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2})",
-                GetTableName(classMap),
-                columnNames.AppendStrings(),
-                parameters.AppendStrings());
+                                       GetTableName(classMap),
+                                       columnNames.AppendStrings(),
+                                       parameters.AppendStrings());
 
             return sql;
         }
@@ -188,19 +184,14 @@ namespace DapperRepository.Drapper.Sql
                 throw new ArgumentNullException("Parameters");
             }
 
-            IPropertyMap[] columns =
-                classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity))
-                    .ToArray();
+            var columns = classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity))
+                .ToArray();
             if (!columns.Any())
             {
                 throw new ArgumentException("No columns were mapped.");
             }
 
-            IEnumerable<string> setSql =
-                columns.Select(
-                    p =>
-                        string.Format("{0} = {1}{2}", GetColumnName(classMap, p, false),
-                            Configuration.Dialect.ParameterPrefix, p.Name));
+            var setSql = columns.Select(p => string.Format("{0} = {1}{2}", GetColumnName(classMap, p, false), Configuration.Dialect.ParameterPrefix, p.Name));
 
             return string.Format("UPDATE {0} SET {1} WHERE {2}",
                 GetTableName(classMap),
@@ -248,9 +239,7 @@ namespace DapperRepository.Drapper.Sql
 
         public virtual string GetColumnName(IClassMapper map, string propertyName, bool includeAlias)
         {
-            IPropertyMap propertyMap =
-                map.Properties.SingleOrDefault(
-                    p => p.Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase));
+            IPropertyMap propertyMap = map.Properties.SingleOrDefault(p => p.Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase));
             if (propertyMap == null)
             {
                 throw new ArgumentException(string.Format("Could not find '{0}' in Mapping.", propertyName));
@@ -266,7 +255,7 @@ namespace DapperRepository.Drapper.Sql
 
         public virtual string BuildSelectColumns(IClassMapper classMap)
         {
-            IEnumerable<string> columns = classMap.Properties
+            var columns = classMap.Properties
                 .Where(p => !p.Ignored)
                 .Select(p => GetColumnName(classMap, p, true));
             return columns.AppendStrings();

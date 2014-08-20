@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Generic; 
 
 namespace DapperRepository.Drapper
 {
-    public interface IMultipleResultReader
-    {
-        IEnumerable<T> Read<T>();
-    }
-
     public class GridReaderResultReader : IMultipleResultReader
     {
         private readonly SqlMapper.GridReader _reader;

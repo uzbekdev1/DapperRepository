@@ -3,7 +3,7 @@ using System.Reflection;
 namespace DapperRepository.Drapper.Mapper
 {
     /// <summary>
-    ///     Maps an entity property to its corresponding column in the database.
+    /// Maps an entity property to its corresponding column in the database.
     /// </summary>
     public interface IPropertyMap
     {

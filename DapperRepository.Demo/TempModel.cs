@@ -10,9 +10,7 @@ namespace DapperRepository.Demo
             CreatedDate = DateTime.Now;
         }
 
-        public long ID { get; set; }
-
-        public string Version { get; set; }
+        public long ID { get; set; } 
 
         public string Name { get; set; }
 

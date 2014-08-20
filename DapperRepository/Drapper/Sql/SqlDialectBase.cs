@@ -29,12 +29,18 @@ namespace DapperRepository.Drapper.Sql
 
         public virtual char ParameterPrefix
         {
-            get { return '@'; }
+            get
+            {
+                return '@';
+            }
         }
 
         public string EmptyExpression
         {
-            get { return "1=1"; }
+            get
+            {
+                return "1=1";
+            }
         }
 
         public virtual string GetTableName(string schemaName, string tableName, string alias)
@@ -44,7 +50,7 @@ namespace DapperRepository.Drapper.Sql
                 throw new ArgumentNullException("TableName", "tableName cannot be null or empty.");
             }
 
-            var result = new StringBuilder();
+            StringBuilder result = new StringBuilder();
             if (!string.IsNullOrWhiteSpace(schemaName))
             {
                 result.AppendFormat(QuoteString(schemaName) + ".");
@@ -66,7 +72,7 @@ namespace DapperRepository.Drapper.Sql
                 throw new ArgumentNullException("ColumnName", "columnName cannot be null or empty.");
             }
 
-            var result = new StringBuilder();
+            StringBuilder result = new StringBuilder();
             if (!string.IsNullOrWhiteSpace(prefix))
             {
                 result.AppendFormat(QuoteString(prefix) + ".");
@@ -83,12 +89,8 @@ namespace DapperRepository.Drapper.Sql
         }
 
         public abstract string GetIdentitySql(string tableName);
-
-        public abstract string GetPagingSql(string sql, int page, int resultsPerPage,
-            IDictionary<string, object> parameters);
-
-        public abstract string GetSetSql(string sql, int firstResult, int maxResults,
-            IDictionary<string, object> parameters);
+        public abstract string GetPagingSql(string sql, int page, int resultsPerPage, IDictionary<string, object> parameters);
+        public abstract string GetSetSql(string sql, int firstResult, int maxResults, IDictionary<string, object> parameters);
 
         public virtual bool IsQuoted(string value)
         {

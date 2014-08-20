@@ -9,7 +9,9 @@ I fix to this issue list:
 	- Drop table
 	- Exists table
 	- Create table
-	- DbFactory
+	- Create Schema
+	- Create Database
+	- PK , UQ , NN impleted to every dialects
 
 ---------------------------------------------------------------
 License - http://www.apache.org/licenses/LICENSE-2.0

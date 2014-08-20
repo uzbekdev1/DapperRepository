@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--SQLite-->
+<Repository>
+  <DriverType>SQLite</DriverType>
+  <ConnectionString>Data Source=QueryProcessorStorage.sqlite;Version=3;</ConnectionString>
+  <Options>
+    <CommandTimeOut>0</CommandTimeOut>
+    <DefaultSchema/>
+    <MigrationsEnabled>True</MigrationsEnabled>
+    <MigrationDataLossAllowed>False</MigrationDataLossAllowed>
+    <CreateDatabaseIfNotExists>True</CreateDatabaseIfNotExists>
+  </Options> 
+</Repository>
+
+<!--MySQL-->
+<!--<Repository>
+  <DriverType>MySQL</DriverType>
+  <ConnectionString>server=localhost;port=3306;database=QueryProcessorStorage;uid=root;pwd=web@1234;</ConnectionString>
+  <Options>
+    <CommandTimeOut>0</CommandTimeOut>
+    <DefaultSchema/>
+    <MigrationsEnabled>True</MigrationsEnabled>
+    <MigrationDataLossAllowed>False</MigrationDataLossAllowed>
+    <CreateDatabaseIfNotExists>True</CreateDatabaseIfNotExists>
+  </Options> 
+</Repository>-->
+
+<!--PostgreSQL-->
+<!--<Repository>
+  <DriverType>PostgreSQL</DriverType>
+  <ConnectionString>Server=localhost;Port=5432;Database=QueryProcessorStorage;User Id=postgres;Password=web@1234;</ConnectionString>
+  <Options> 
+    <CommandTimeOut>0</CommandTimeOut> 
+    <DefaultSchema>public</DefaultSchema> 
+    <MigrationsEnabled>True</MigrationsEnabled>  
+    <MigrationDataLossAllowed>False</MigrationDataLossAllowed> 
+    <CreateDatabaseIfNotExists>True</CreateDatabaseIfNotExists> 
+  </Options> 
+</Repository>-->
+
+<!--MSSQL-->
+<!--<Repository>
+  <DriverType>MSSQL</DriverType>
+  <ConnectionString>Data Source=localhost;Initial Catalog=QueryProcessorStorage;User Id=sa;Password=web@1234;</ConnectionString>
+  <Options>
+    <CommandTimeOut>0</CommandTimeOut>
+    <DefaultSchema>dbo</DefaultSchema>
+    <MigrationsEnabled>True</MigrationsEnabled>
+    <MigrationDataLossAllowed>False</MigrationDataLossAllowed>
+    <CreateDatabaseIfNotExists>True</CreateDatabaseIfNotExists>
+  </Options> 
+</Repository>-->

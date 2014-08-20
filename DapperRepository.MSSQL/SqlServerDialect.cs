@@ -6,7 +6,7 @@ using DapperRepository.Drapper.Sql;
 
 namespace DapperRepository.MSSQL
 {
-    public sealed class SqlServerDialect : SqlDialectBase
+    internal sealed class SqlServerDialect : SqlDialectBase
     {
         public override char OpenQuote
         {
@@ -23,15 +23,13 @@ namespace DapperRepository.MSSQL
             return string.Format("SELECT CAST(SCOPE_IDENTITY()  AS BIGINT) AS [Id]");
         }
 
-        public override string GetPagingSql(string sql, int page, int resultsPerPage,
-            IDictionary<string, object> parameters)
+        public override string GetPagingSql(string sql, int page, int resultsPerPage, IDictionary<string, object> parameters)
         {
-            int startValue = (page*resultsPerPage) + 1;
+            int startValue = (page * resultsPerPage) + 1;
             return GetSetSql(sql, startValue, resultsPerPage, parameters);
         }
 
-        public override string GetSetSql(string sql, int firstResult, int maxResults,
-            IDictionary<string, object> parameters)
+        public override string GetSetSql(string sql, int firstResult, int maxResults, IDictionary<string, object> parameters)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -51,19 +49,13 @@ namespace DapperRepository.MSSQL
             }
 
 
-            string projectedColumns = GetColumnNames(sql)
-                .Aggregate(new StringBuilder(),
-                    (sb, s) => (sb.Length == 0 ? sb : sb.Append(", ")).Append(GetColumnName("_proj", s, null)),
-                    sb => sb.ToString());
+            string projectedColumns = GetColumnNames(sql).Aggregate(new StringBuilder(), (sb, s) => (sb.Length == 0 ? sb : sb.Append(", ")).Append(GetColumnName("_proj", s, null)), sb => sb.ToString());
             string newSql = sql
                 .Replace(" " + orderByClause, string.Empty)
-                .Insert(selectIndex,
-                    string.Format("ROW_NUMBER() OVER(ORDER BY {0}) AS {1}, ", orderByClause.Substring(9),
-                        GetColumnName(null, "_row_number", null)));
+                .Insert(selectIndex, string.Format("ROW_NUMBER() OVER(ORDER BY {0}) AS {1}, ", orderByClause.Substring(9), GetColumnName(null, "_row_number", null)));
 
-            string result =
-                string.Format("SELECT TOP({0}) {1} FROM ({2}) [_proj] WHERE {3} >= @_pageStartRow ORDER BY {3}",
-                    maxResults, projectedColumns.Trim(), newSql, GetColumnName("_proj", "_row_number", null));
+            string result = string.Format("SELECT TOP({0}) {1} FROM ({2}) [_proj] WHERE {3} >= @_pageStartRow ORDER BY {3}",
+                maxResults, projectedColumns.Trim(), newSql, GetColumnName("_proj", "_row_number", null));
 
             parameters.Add("@_pageStartRow", firstResult);
             return result;
@@ -93,7 +85,7 @@ namespace DapperRepository.MSSQL
             int selectCount = 0;
             string[] words = sql.Split(' ');
             int fromIndex = 0;
-            foreach (string word in words)
+            foreach (var word in words)
             {
                 if (word.Equals("SELECT", StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -135,7 +127,7 @@ namespace DapperRepository.MSSQL
             int start = GetSelectEnd(sql);
             int stop = GetFromStart(sql);
             string[] columnSql = sql.Substring(start, stop - start).Split(',');
-            var result = new List<string>();
+            List<string> result = new List<string>();
             foreach (string c in columnSql)
             {
                 int index = c.IndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase);
@@ -151,7 +143,7 @@ namespace DapperRepository.MSSQL
 
             return result;
         }
-
+         
         public override string GetTableName(string schemaName, string tableName, string alias)
         {
             if (String.IsNullOrWhiteSpace(schemaName))

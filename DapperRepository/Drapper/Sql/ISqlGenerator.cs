@@ -1,23 +1,17 @@
 using System.Collections.Generic;
-using DapperRepository.Drapper.Mapper;
+using DapperRepository.Drapper.Mapper; 
 
 namespace DapperRepository.Drapper.Sql
 {
     public interface ISqlGenerator
     {
         IDapperExtensionsConfiguration Configuration { get; }
-
-        string Select(IClassMapper classMap, IPredicate predicate, IList<ISort> sort,
-            IDictionary<string, object> parameters);
-
-        string SelectPaged(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int page, int resultsPerPage,
-            IDictionary<string, object> parameters);
-
-        string SelectSet(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int firstResult, int maxResults,
-            IDictionary<string, object> parameters);
-
+        string Select(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, IDictionary<string, object> parameters);
+        string SelectPaged(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int page, int resultsPerPage, IDictionary<string, object> parameters);
+        string SelectSet(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int firstResult, int maxResults, IDictionary<string, object> parameters);
         string Count(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters);
-
+        string ConnectionString();
+        string Database();
         string Schema(IClassMapper classMapper);
         string Create(IClassMapper classMap);
         string Exists(IClassMapper classMap);

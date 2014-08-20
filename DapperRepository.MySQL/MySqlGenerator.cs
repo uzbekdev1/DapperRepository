@@ -5,42 +5,65 @@ using System.Text;
 using DapperRepository.Drapper;
 using DapperRepository.Drapper.Mapper;
 using DapperRepository.Drapper.Sql;
+using DapperRepository.Extensions;
+using DapperRepository.Models;
 
 namespace DapperRepository.MySQL
 {
-    public class MySqlGenerator : SqlGenerator
+    internal class MySqlGenerator : SqlGenerator
     {
+
+        private static RepositoryModel _model;
+        private const string DATABASE_KEY = @"database";
+
         public MySqlGenerator(IDapperExtensionsConfiguration configuration)
             : base(configuration)
         {
+            _model = RepositoryFactory.GetModel();
+        }
+
+        public override string Database()
+        {
+            var connectionKeys = _model.ConnectionString.AsSplit(";");
+            var dbKeys = connectionKeys.Select(item => item.AsSplit("="))
+                .FirstOrDefault(f => f.Length == 2 && f[0].IsString(DATABASE_KEY));
+            var dbName = dbKeys[1];
+
+            return String.Format("CREATE DATABASE IF NOT EXISTS `{0}`", dbName);
+        }
+
+        public override string ConnectionString()
+        {
+            var connectionKeys = _model.ConnectionString.AsSplit(";");
+            var dbKeys = connectionKeys.Select(item => item.AsSplit("="))
+                .Where(f => f.Length == 2 && !f[0].IsString(DATABASE_KEY));
+
+            return String.Join("", dbKeys.Select(s => String.Format("{0}={1};", s[0], s[1])));
         }
 
         public override string Create(IClassMapper classMap)
         {
-            IPropertyMap[] columns = classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly)).ToArray();
+            var columns = classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly)).ToArray();
 
             if (!columns.Any())
             {
                 throw new ArgumentException("No columns were mapped.");
             }
 
-            List<KeyValuePair<Type, string>> columnKeys =
-                columns.Select(
-                    p => new KeyValuePair<Type, string>(p.PropertyInfo.PropertyType, GetColumnName(classMap, p, false)))
-                    .ToList();
+            var columnKeys = columns.Select(p => new KeyValuePair<Type, string>(p.PropertyInfo.PropertyType, GetColumnName(classMap, p, false)))
+                      .ToList();
             var sql = new StringBuilder();
 
             sql.AppendFormat("CREATE TABLE IF NOT EXISTS {0}", GetTableName(classMap)).AppendLine();
             sql.AppendLine("(");
 
-            int index = 0;
-            string pk = String.Empty;
+            var index = 0;
+            var pk = String.Empty;
 
             foreach (var columnKey in columnKeys)
             {
-                IPropertyMap column = columns.FirstOrDefault(f => columnKey.Key == f.PropertyInfo.PropertyType &&
-                                                                  columnKey.Value.IndexOf(f.Name,
-                                                                      StringComparison.InvariantCultureIgnoreCase) >= 0);
+                var column = columns.FirstOrDefault(f => columnKey.Key == f.PropertyInfo.PropertyType &&
+                    columnKey.Value.IndexOf(f.Name, StringComparison.InvariantCultureIgnoreCase) >= 0);
 
                 if (column == null)
                     continue;
@@ -55,7 +78,7 @@ namespace DapperRepository.MySQL
                         break;
                     default:
                         sql.AppendFormat("{0} {1} NULL",
-                            columnKey.Value, Configuration.DataMapper[columnKey.Key]);
+                                 columnKey.Value, Configuration.DataMapper[columnKey.Key]);
                         break;
                 }
 
@@ -75,5 +98,6 @@ namespace DapperRepository.MySQL
 
             return sql.ToString();
         }
+
     }
 }

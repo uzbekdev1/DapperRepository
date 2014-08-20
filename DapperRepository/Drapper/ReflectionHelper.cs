@@ -10,42 +10,42 @@ namespace DapperRepository.Drapper
     public static class ReflectionHelper
     {
         private static readonly List<Type> _simpleTypes = new List<Type>
-        {
-            typeof (byte),
-            typeof (sbyte),
-            typeof (short),
-            typeof (ushort),
-            typeof (int),
-            typeof (uint),
-            typeof (long),
-            typeof (ulong),
-            typeof (float),
-            typeof (double),
-            typeof (decimal),
-            typeof (bool),
-            typeof (string),
-            typeof (char),
-            typeof (Guid),
-            typeof (DateTime),
-            typeof (DateTimeOffset),
-            typeof (byte[])
-        };
-
+                               {
+                                   typeof(byte),
+                                   typeof(sbyte),
+                                   typeof(short),
+                                   typeof(ushort),
+                                   typeof(int),
+                                   typeof(uint),
+                                   typeof(long),
+                                   typeof(ulong),
+                                   typeof(float),
+                                   typeof(double),
+                                   typeof(decimal),
+                                   typeof(bool),
+                                   typeof(string),
+                                   typeof(char),
+                                   typeof(Guid),
+                                   typeof(DateTime),
+                                   typeof(DateTimeOffset),
+                                   typeof(byte[])
+                               };
+        
         public static MemberInfo GetProperty(LambdaExpression lambda)
         {
             Expression expr = lambda;
-            for (;;)
+            for (; ; )
             {
                 switch (expr.NodeType)
                 {
                     case ExpressionType.Lambda:
-                        expr = ((LambdaExpression) expr).Body;
+                        expr = ((LambdaExpression)expr).Body;
                         break;
                     case ExpressionType.Convert:
-                        expr = ((UnaryExpression) expr).Operand;
+                        expr = ((UnaryExpression)expr).Operand;
                         break;
                     case ExpressionType.MemberAccess:
-                        var memberExpression = (MemberExpression) expr;
+                        MemberExpression memberExpression = (MemberExpression)expr;
                         MemberInfo mi = memberExpression.Member;
                         return mi;
                     default:
@@ -63,7 +63,7 @@ namespace DapperRepository.Drapper
             }
 
 
-            foreach (PropertyInfo propertyInfo in obj.GetType().GetProperties())
+            foreach (var propertyInfo in obj.GetType().GetProperties())
             {
                 string name = propertyInfo.Name;
                 object value = propertyInfo.GetValue(obj, null);
@@ -84,7 +84,7 @@ namespace DapperRepository.Drapper
         public static bool IsSimpleType(Type type)
         {
             Type actualType = type;
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof (Nullable<>))
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 actualType = type.GetGenericArguments()[0];
             }
@@ -92,14 +92,12 @@ namespace DapperRepository.Drapper
             return _simpleTypes.Contains(actualType);
         }
 
-        public static string GetParameterName(this IDictionary<string, object> parameters, string parameterName,
-            char parameterPrefix)
+        public static string GetParameterName(this IDictionary<string, object> parameters, string parameterName, char parameterPrefix)
         {
             return string.Format("{0}{1}_{2}", parameterPrefix, parameterName, parameters.Count);
         }
 
-        public static string SetParameterName(this IDictionary<string, object> parameters, string parameterName,
-            object value, char parameterPrefix)
+        public static string SetParameterName(this IDictionary<string, object> parameters, string parameterName, object value, char parameterPrefix)
         {
             string name = parameters.GetParameterName(parameterName, parameterPrefix);
             parameters.Add(name, value);

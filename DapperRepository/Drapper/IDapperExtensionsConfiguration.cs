@@ -10,6 +10,7 @@ namespace DapperRepository.Drapper
     {
         IDictionary<Type, string> DataMapper { get; }
         Type DefaultMapper { get; }
+        String ConnectionString { get; set; }
         IList<Assembly> MappingAssemblies { get; }
         ISqlDialect Dialect { get; }
         IClassMapper GetMap(Type entityType);

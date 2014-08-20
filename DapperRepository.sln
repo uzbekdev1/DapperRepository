@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperRepository", "DapperRepository\DapperRepository.csproj", "{6B27BDC9-49DE-4111-A288-36E18AF55CF5}"
 EndProject
@@ -19,6 +19,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperRepository.Demo", "DapperRepository.Demo\DapperRepository.Demo.csproj", "{0ACBF4A9-53A4-4B95-9369-8E4965B42903}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperRepository.PostgreSQL", "DapperRepository.PostgreSQL\DapperRepository.PostgreSQL.csproj", "{DD2C6178-CFA7-410D-B125-85C3FAE6EB5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperRepository.SQLite", "DapperRepository.SQLite\DapperRepository.SQLite.csproj", "{96D35BD9-F59E-49CF-8292-B06680D4850A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{DD2C6178-CFA7-410D-B125-85C3FAE6EB5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD2C6178-CFA7-410D-B125-85C3FAE6EB5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD2C6178-CFA7-410D-B125-85C3FAE6EB5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96D35BD9-F59E-49CF-8292-B06680D4850A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96D35BD9-F59E-49CF-8292-B06680D4850A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96D35BD9-F59E-49CF-8292-B06680D4850A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96D35BD9-F59E-49CF-8292-B06680D4850A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

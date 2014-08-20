@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using DapperRepository.Drapper.Mapper;
+using DapperRepository.Drapper.Mapper; 
 
 namespace DapperRepository.Drapper
 {
@@ -12,11 +12,15 @@ namespace DapperRepository.Drapper
         void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
         void Commit();
         void Rollback();
+        void Open();
+        void Close();
         void RunInTransaction(Action action);
         T RunInTransaction<T>(Func<T> func);
         T Get<T>(dynamic id, IDbTransaction transaction, int? commandTimeout = null) where T : class;
         T Get<T>(dynamic id, int? commandTimeout = null) where T : class;
         bool Exists<T>(int? commandTimeout = null) where T : class;
+        void CreateDatabaseIfNotExists(string connectionString,int? commandTimeout = null);
+        void CreateSchemaIfNotExists<T>(int? commandTimeout = null) where T : class;
         void Drop<T>(int? commandTimeout = null) where T : class;
         void Create<T>(int? commandTimeout = null) where T : class;
         void Insert<T>(IEnumerable<T> entities, IDbTransaction transaction, int? commandTimeout = null) where T : class;
@@ -29,31 +33,15 @@ namespace DapperRepository.Drapper
         bool Delete<T>(T entity, int? commandTimeout = null) where T : class;
         bool Delete<T>(object predicate, IDbTransaction transaction, int? commandTimeout = null) where T : class;
         bool Delete<T>(object predicate, int? commandTimeout = null) where T : class;
-
-        IEnumerable<T> GetList<T>(object predicate, IList<ISort> sort, IDbTransaction transaction,
-            int? commandTimeout = null, bool buffered = true) where T : class;
-
-        IEnumerable<T> GetList<T>(object predicate = null, IList<ISort> sort = null, int? commandTimeout = null,
-            bool buffered = true) where T : class;
-
-        IEnumerable<T> GetPage<T>(object predicate, IList<ISort> sort, int page, int resultsPerPage,
-            IDbTransaction transaction, int? commandTimeout = null, bool buffered = true) where T : class;
-
-        IEnumerable<T> GetPage<T>(object predicate, IList<ISort> sort, int page, int resultsPerPage,
-            int? commandTimeout = null, bool buffered = true) where T : class;
-
-        IEnumerable<T> GetSet<T>(object predicate, IList<ISort> sort, int firstResult, int maxResults,
-            IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class;
-
-        IEnumerable<T> GetSet<T>(object predicate, IList<ISort> sort, int firstResult, int maxResults,
-            int? commandTimeout, bool buffered) where T : class;
-
+        IEnumerable<T> GetList<T>(object predicate, IList<ISort> sort, IDbTransaction transaction, int? commandTimeout = null, bool buffered = true) where T : class;
+        IEnumerable<T> GetList<T>(object predicate = null, IList<ISort> sort = null, int? commandTimeout = null, bool buffered = true) where T : class;
+        IEnumerable<T> GetPage<T>(object predicate, IList<ISort> sort, int page, int resultsPerPage, IDbTransaction transaction, int? commandTimeout = null, bool buffered = true) where T : class;
+        IEnumerable<T> GetPage<T>(object predicate, IList<ISort> sort, int page, int resultsPerPage, int? commandTimeout = null, bool buffered = true) where T : class;
+        IEnumerable<T> GetSet<T>(object predicate, IList<ISort> sort, int firstResult, int maxResults, IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class;
+        IEnumerable<T> GetSet<T>(object predicate, IList<ISort> sort, int firstResult, int maxResults, int? commandTimeout, bool buffered) where T : class;
         int Count<T>(object predicate, IDbTransaction transaction, int? commandTimeout = null) where T : class;
         int Count<T>(object predicate, int? commandTimeout = null) where T : class;
-
-        IMultipleResultReader GetMultiple(GetMultiplePredicate predicate, IDbTransaction transaction,
-            int? commandTimeout = null);
-
+        IMultipleResultReader GetMultiple(GetMultiplePredicate predicate, IDbTransaction transaction, int? commandTimeout = null);
         IMultipleResultReader GetMultiple(GetMultiplePredicate predicate, int? commandTimeout = null);
         void ClearCache();
         Guid GetNextGuid();

@@ -2,30 +2,27 @@
 using System.Collections.Generic;
 using System.Data;
 using DapperRepository.Drapper.Mapper;
-using DapperRepository.Drapper.Sql;
+using DapperRepository.Drapper.Sql; 
 
 namespace DapperRepository.Drapper
 {
     public class Database : IDatabase
     {
         private readonly IDapperImplementor _dapper;
-
         private IDbTransaction _transaction;
 
         public Database(IDbConnection connection, ISqlGenerator sqlGenerator)
         {
             _dapper = new DapperImplementor(sqlGenerator);
             Connection = connection;
-
-            if (Connection.State != ConnectionState.Open)
-            {
-                Connection.Open();
-            }
         }
 
         public bool HasActiveTransaction
         {
-            get { return _transaction != null; }
+            get
+            {
+                return _transaction != null;
+            }
         }
 
         public IDbConnection Connection { get; private set; }
@@ -58,6 +55,22 @@ namespace DapperRepository.Drapper
         {
             _transaction.Rollback();
             _transaction = null;
+        }
+
+        public void Open()
+        {
+            if (Connection.State != ConnectionState.Open)
+            {
+                Connection.Open();
+            }
+        }
+
+        public void Close()
+        {
+            if (Connection.State != ConnectionState.Closed)
+            {
+                Connection.Close();
+            }
         }
 
         public void RunInTransaction(Action action)
@@ -101,17 +114,27 @@ namespace DapperRepository.Drapper
 
         public T Get<T>(dynamic id, IDbTransaction transaction, int? commandTimeout) where T : class
         {
-            return (T) _dapper.Get<T>(Connection, id, transaction, commandTimeout);
+            return (T)_dapper.Get<T>(Connection, id, transaction, commandTimeout);
         }
 
         public T Get<T>(dynamic id, int? commandTimeout) where T : class
         {
-            return (T) _dapper.Get<T>(Connection, id, _transaction, commandTimeout);
+            return (T)_dapper.Get<T>(Connection, id, _transaction, commandTimeout);
         }
 
         public bool Exists<T>(int? commandTimeout = null) where T : class
         {
             return _dapper.Exists<T>(Connection, commandTimeout);
+        }
+
+        public void CreateDatabaseIfNotExists(string connectionString, int? commandTimeout = null)
+        {  
+            _dapper.CreateDatabaseIfNotExists(Connection,connectionString, commandTimeout);
+        }
+
+        public void CreateSchemaIfNotExists<T>(int? commandTimeout = null) where T : class
+        {
+            _dapper.CreateSchemaIfNotExists<T>(Connection, commandTimeout);
         }
 
         public void Drop<T>(int? commandTimeout = null) where T : class
@@ -126,32 +149,32 @@ namespace DapperRepository.Drapper
 
         public void Insert<T>(IEnumerable<T> entities, IDbTransaction transaction, int? commandTimeout) where T : class
         {
-            _dapper.Insert(Connection, entities, transaction, commandTimeout);
+            _dapper.Insert<T>(Connection, entities, transaction, commandTimeout);
         }
 
         public void Insert<T>(IEnumerable<T> entities, int? commandTimeout) where T : class
         {
-            _dapper.Insert(Connection, entities, _transaction, commandTimeout);
+            _dapper.Insert<T>(Connection, entities, _transaction, commandTimeout);
         }
 
         public dynamic Insert<T>(T entity, IDbTransaction transaction, int? commandTimeout) where T : class
         {
-            return _dapper.Insert(Connection, entity, transaction, commandTimeout);
+            return _dapper.Insert<T>(Connection, entity, transaction, commandTimeout);
         }
 
         public dynamic Insert<T>(T entity, int? commandTimeout) where T : class
         {
-            return _dapper.Insert(Connection, entity, _transaction, commandTimeout);
+            return _dapper.Insert<T>(Connection, entity, _transaction, commandTimeout);
         }
 
         public bool Update<T>(T entity, IDbTransaction transaction, int? commandTimeout) where T : class
         {
-            return _dapper.Update(Connection, entity, transaction, commandTimeout);
+            return _dapper.Update<T>(Connection, entity, transaction, commandTimeout);
         }
 
         public bool Update<T>(T entity, int? commandTimeout) where T : class
         {
-            return _dapper.Update(Connection, entity, _transaction, commandTimeout);
+            return _dapper.Update<T>(Connection, entity, _transaction, commandTimeout);
         }
 
         public bool Delete<T>(T entity, IDbTransaction transaction, int? commandTimeout) where T : class
@@ -174,44 +197,34 @@ namespace DapperRepository.Drapper
             return _dapper.Delete<T>(Connection, predicate, _transaction, commandTimeout);
         }
 
-        public IEnumerable<T> GetList<T>(object predicate, IList<ISort> sort, IDbTransaction transaction,
-            int? commandTimeout, bool buffered) where T : class
+        public IEnumerable<T> GetList<T>(object predicate, IList<ISort> sort, IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class
         {
             return _dapper.GetList<T>(Connection, predicate, sort, transaction, commandTimeout, buffered);
         }
 
-        public IEnumerable<T> GetList<T>(object predicate, IList<ISort> sort, int? commandTimeout, bool buffered)
-            where T : class
+        public IEnumerable<T> GetList<T>(object predicate, IList<ISort> sort, int? commandTimeout, bool buffered) where T : class
         {
             return _dapper.GetList<T>(Connection, predicate, sort, _transaction, commandTimeout, buffered);
         }
 
-        public IEnumerable<T> GetPage<T>(object predicate, IList<ISort> sort, int page, int resultsPerPage,
-            IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class
+        public IEnumerable<T> GetPage<T>(object predicate, IList<ISort> sort, int page, int resultsPerPage, IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class
         {
-            return _dapper.GetPage<T>(Connection, predicate, sort, page, resultsPerPage, transaction, commandTimeout,
-                buffered);
+            return _dapper.GetPage<T>(Connection, predicate, sort, page, resultsPerPage, transaction, commandTimeout, buffered);
         }
 
-        public IEnumerable<T> GetPage<T>(object predicate, IList<ISort> sort, int page, int resultsPerPage,
-            int? commandTimeout, bool buffered) where T : class
+        public IEnumerable<T> GetPage<T>(object predicate, IList<ISort> sort, int page, int resultsPerPage, int? commandTimeout, bool buffered) where T : class
         {
-            return _dapper.GetPage<T>(Connection, predicate, sort, page, resultsPerPage, _transaction, commandTimeout,
-                buffered);
+            return _dapper.GetPage<T>(Connection, predicate, sort, page, resultsPerPage, _transaction, commandTimeout, buffered);
         }
 
-        public IEnumerable<T> GetSet<T>(object predicate, IList<ISort> sort, int firstResult, int maxResults,
-            IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class
+        public IEnumerable<T> GetSet<T>(object predicate, IList<ISort> sort, int firstResult, int maxResults, IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class
         {
-            return _dapper.GetSet<T>(Connection, predicate, sort, firstResult, maxResults, transaction, commandTimeout,
-                buffered);
+            return _dapper.GetSet<T>(Connection, predicate, sort, firstResult, maxResults, transaction, commandTimeout, buffered);
         }
 
-        public IEnumerable<T> GetSet<T>(object predicate, IList<ISort> sort, int firstResult, int maxResults,
-            int? commandTimeout, bool buffered) where T : class
+        public IEnumerable<T> GetSet<T>(object predicate, IList<ISort> sort, int firstResult, int maxResults, int? commandTimeout, bool buffered) where T : class
         {
-            return _dapper.GetSet<T>(Connection, predicate, sort, firstResult, maxResults, _transaction, commandTimeout,
-                buffered);
+            return _dapper.GetSet<T>(Connection, predicate, sort, firstResult, maxResults, _transaction, commandTimeout, buffered);
         }
 
         public int Count<T>(object predicate, IDbTransaction transaction, int? commandTimeout) where T : class
@@ -224,8 +237,7 @@ namespace DapperRepository.Drapper
             return _dapper.Count<T>(Connection, predicate, _transaction, commandTimeout);
         }
 
-        public IMultipleResultReader GetMultiple(GetMultiplePredicate predicate, IDbTransaction transaction,
-            int? commandTimeout)
+        public IMultipleResultReader GetMultiple(GetMultiplePredicate predicate, IDbTransaction transaction, int? commandTimeout)
         {
             return _dapper.GetMultiple(Connection, predicate, transaction, commandTimeout);
         }

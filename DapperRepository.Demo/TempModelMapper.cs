@@ -8,8 +8,7 @@ namespace DapperRepository.Demo
         {
             Table("BusinessView");
 
-            Map(f => f.ID).Column("Id").Key(KeyType.Identity);
-            Map(f => f.Version).Column("Version");
+            Map(f => f.ID).Column("Id").Key(KeyType.Identity); 
             Map(f => f.Name).Column("Name");
             Map(f => f.CreatedDate).Column("CreatedDate");
             Map(f => f.LastModifiedDate).Column("LastModifiedDate");
