@@ -20,7 +20,7 @@ I fix to this issue list:
 
 Model:
 
- public class TempModel
+    public class TempModel
     {
         public TempModel()
         {
@@ -36,7 +36,7 @@ Model:
 
 Mapper:
 
-  public class TempModelMapper : ClassMapper<TempModel>
+    public class TempModelMapper : ClassMapper<TempModel>
     {
         public TempModelMapper()
         {
